@@ -1,0 +1,13 @@
+# Virtual environment
+venv/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Generated sanitized images
+*_cleaned.jpeg
+*_no_gps.jpeg
+*_no_device.jpeg
+*_no_timestamp.jpeg
+*_no_software.jpeg
