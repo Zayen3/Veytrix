@@ -11,3 +11,6 @@ __pycache__/
 *_no_device.jpeg
 *_no_timestamp.jpeg
 *_no_software.jpeg
+
+# Local sample images
+samples/

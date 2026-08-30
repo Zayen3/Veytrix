@@ -1,49 +1,43 @@
-# Veytrix
+Veytrix
 
-Veytrix is a Python-based metadata privacy tool that inspects image metadata, identifies potential privacy risks, and creates a cleaned copy with EXIF metadata removed.
+Veytrix is a Python-based metadata privacy tool that inspects image metadata, identifies potential privacy risks, and allows users to selectively remove sensitive EXIF metadata while preserving the original image.
 
-## Features
+Features
+Extracts EXIF metadata from images
+Detects device manufacturer and model information
+Detects camera or software metadata
+Detects common image timestamps
+Detects embedded GPS metadata
+Extracts and converts GPS coordinates to decimal latitude and longitude
+Analyzes metadata for potential privacy risks
+Categorizes risks as High, Medium, or Low
+Provides a privacy risk breakdown
+Supports selective metadata sanitization:
+GPS location data
+Device information
+Timestamp information
+Software information
+Supports complete EXIF metadata removal
+Creates a separate cleaned copy without modifying the original image
+Verifies sanitization after processing
+Privacy Risk Analysis
 
-- Extracts EXIF metadata from images
-- Detects device manufacturer and model
-- Detects camera or software information
-- Extracts capture timestamps
-- Detects embedded GPS metadata
-- Converts GPS coordinates to decimal latitude and longitude
-- Analyzes metadata for privacy risks
-- Categorizes risks as High, Medium, or Low
-- Provides a privacy risk breakdown
-- Creates a cleaned copy without EXIF metadata
-- Preserves the original image
-- Verifies metadata removal after sanitization
+Veytrix categorizes detected metadata based on its potential privacy impact.
 
-## Privacy Risk Analysis
-
-Veytrix categorizes detected metadata based on potential privacy impact.
-
-### High Risk
-
-- Precise GPS coordinates
-- GPS metadata that may contain location information
-
-### Medium Risk
-
-- Device model information
-- Capture timestamps
-
-### Low Risk
-
-- Device manufacturer information
-- Camera or software metadata
-
-## Project Structure
-
-```text
+High Risk
+Precise GPS coordinates
+GPS metadata that may contain location information
+Medium Risk
+Device model information
+Timestamp information that may reveal when an image was taken or processed
+Low Risk
+Device manufacturer information
+Camera or software metadata
+Project Structure
 Veytrix/
 │
 ├── samples/
-│   ├── test.jpeg
-│   └── test_cleaned.jpeg
+│   └── test.jpeg
 │
 ├── src/
 │   ├── main.py
@@ -53,159 +47,97 @@ Veytrix/
 │   └── sanitizer.py
 │
 ├── requirements.txt
+├── .gitignore
 └── README.md
-```
 
-## Installation
+Sanitized images are generated as separate files in the same directory as the original image.
+
+Installation
 
 Clone the repository:
 
-```bash
 git clone <repository-url>
 cd Veytrix
-```
 
 Create a virtual environment:
 
-```bash
 python -m venv venv
-```
 
 Activate the virtual environment.
 
-### Windows PowerShell
-
-```powershell
+Windows PowerShell
 venv\Scripts\Activate.ps1
-```
 
-Install the required dependency:
+Install the required dependencies:
 
-```bash
 pip install -r requirements.txt
-```
-
-## Usage
+Usage
 
 Run the application from the project root:
 
-```bash
 python src/main.py
-```
 
 Enter the path to an image when prompted:
 
-```text
-Enter the path of an image: samples\test.jpeg
-```
+Enter the path of an image: samples/test.jpeg
 
-Veytrix will inspect the image and generate a metadata privacy report.
+Veytrix will inspect the image and generate a metadata privacy report containing detected metadata, GPS information, and a privacy risk assessment.
 
-Example:
+After the report, select a sanitization option:
 
-```text
-=======================================================
-VEYTRIX - METADATA PRIVACY REPORT
-=======================================================
+SANITIZATION OPTIONS
+1. Remove GPS location data only
+2. Remove device information only
+3. Remove timestamp information only
+4. Remove software information only
+5. Remove all EXIF metadata
+6. Cancel
 
-FILE INFORMATION
-File: test.jpeg
-Format: JPEG
-Dimensions: 3072 x 4080
+Veytrix creates a separate output file for each sanitization operation while preserving the original image.
 
-METADATA FOUND
-✓ Device Manufacturer: Xiaomi
-✓ Device Model: 22120RN86I
-✓ Software: MediaTek Camera Application
-✓ Capture Date: 19 Aug 2026, 21:26:06
-⚠ GPS Location Data: DETECTED
-  Latitude: 12.887237° N
-  Longitude: 77.581015° E
+Examples of generated filenames:
 
-PRIVACY RISK ANALYSIS
+test_no_gps.jpeg
+test_no_device.jpeg
+test_no_timestamp.jpeg
+test_no_software.jpeg
+test_cleaned.jpeg
 
-HIGH RISK
-⚠ Precise GPS coordinates are embedded in this image.
+After sanitization, Veytrix verifies whether the selected metadata was successfully removed.
 
-MEDIUM RISK
-⚠ Device model can help identify the device used.
-⚠ Capture timestamp reveals when the image was taken.
-
-LOW RISK
-• Device manufacturer metadata detected.
-• Camera/software metadata detected.
-
-SUMMARY
-Metadata fields found: 17
-Privacy-sensitive fields: 5
-Risk Breakdown: 1 High | 2 Medium | 2 Low
-Overall Privacy Risk: HIGH
-=======================================================
-```
-
-After the report, Veytrix asks whether metadata should be removed.
-
-```text
-Do you want to remove metadata from this image? (y/n):
-```
-
-If `y` is selected, Veytrix creates a new cleaned copy while preserving the original image.
-
-Example:
-
-```text
-VEYTRIX - METADATA SANITIZATION
-
-Original file: test.jpeg
-Cleaned file: test_cleaned.jpeg
-Status: Cleaned copy created successfully.
-
---- SANITIZATION VERIFICATION ---
-✓ Verification successful: No EXIF metadata found.
-```
-
-## How It Works
-
-```text
+How It Works
 Image
   ↓
 Metadata Extraction
   ↓
-GPS Detection and Coordinate Conversion
+GPS Detection and Coordinate Extraction
   ↓
 Privacy Risk Analysis
   ↓
-Privacy Report
+Metadata Privacy Report
   ↓
-Optional Metadata Sanitization
+Selective or Full Sanitization
   ↓
 Cleaned Copy
   ↓
 Verification
-```
-
-## Technologies Used
-
-- Python
-- Pillow
-- EXIF Metadata Processing
-
-## Current Limitations
-
-- Currently focused on image files supported by Pillow
-- Sanitization currently targets EXIF metadata
-- Risk analysis is based on predefined metadata categories
-
-## Future Improvements
-
-- Support for additional file formats
-- PDF metadata inspection and sanitization
-- Document metadata analysis
-- Batch file processing
-- Improved metadata risk scoring
-- Command-line arguments
-- Exportable privacy reports
-
-## Disclaimer
+Technologies Used
+Python
+Pillow
+EXIF Metadata Processing
+Current Limitations
+Currently focused on image files supported by Pillow
+Sanitization primarily targets EXIF metadata
+Metadata structures can vary between image formats and applications
+Risk analysis is based on predefined metadata categories and does not represent a comprehensive privacy assessment
+Future Improvements
+Support for additional file formats
+PDF metadata inspection and sanitization
+Document metadata analysis
+Batch file processing
+Command-line arguments
+Exportable privacy reports
+More detailed metadata detection and analysis
+Disclaimer
 
 Veytrix is intended for educational and privacy-awareness purposes. Metadata structures can vary between file formats and applications, so users should independently verify sanitization results when handling sensitive files.
